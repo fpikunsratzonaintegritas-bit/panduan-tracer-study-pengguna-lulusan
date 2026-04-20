@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulir Tracer Study — Pengguna Lulusan MSP FPIK UNSRAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#003D5B;--teal:#006D77;--teal-light:#E1F5EE;
+  --gold:#C5973A;--gold-light:#FFF8EB;
+  --green:#1B7A4A;--green-light:#EAF3DE;
+  --red:#C0392B;--red-light:#FCEBEB;
+  --gray-50:#F8F9FA;--gray-100:#F1EFE8;--gray-300:#D3D1C7;
+  --gray-500:#888780;--gray-700:#444441;--gray-900:#1A1A18;
+  --white:#FFFFFF;
+  --shadow-sm:0 1px 3px rgba(0,61,91,0.08);
+  --shadow-md:0 4px 16px rgba(0,61,91,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  font-size:17px;line-height:1.75;
+  color:var(--gray-900);background:var(--gray-50);
+  min-height:100vh;
+}
+
+/* HEADER */
+.form-header{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--teal) 100%);
+  color:var(--white);padding:40px 24px 48px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.form-header::before{
+  content:'';position:absolute;right:-60px;top:-60px;
+  width:300px;height:300px;background:rgba(255,255,255,0.04);border-radius:50%;
+}
+.form-header .badge{
+  display:inline-block;background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.3);
+  color:rgba(255,255,255,0.95);font-size:13px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:6px 16px;border-radius:24px;margin-bottom:16px;font-weight:600;
+}
+.form-header h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(24px,4vw,36px);font-weight:700;
+  line-height:1.25;margin-bottom:10px;position:relative;
+}
+.form-header p{font-size:17px;opacity:0.85;position:relative}
+
+/* PROGRESS */
+.progress-wrap{
+  background:var(--white);border-bottom:1px solid var(--gray-300);
+  padding:20px 24px;position:sticky;top:0;z-index:50;
+  box-shadow:var(--shadow-sm);
+}
+.progress-inner{max-width:680px;margin:0 auto}
+.progress-labels{
+  display:flex;justify-content:space-between;
+  margin-bottom:10px;
+}
+.prog-label{
+  font-size:15px;font-weight:500;color:var(--gray-500);
+  display:flex;align-items:center;gap:6px;
+}
+.prog-label.active{color:var(--teal);font-weight:600}
+.prog-label.done{color:var(--green)}
+.prog-dot{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--gray-300);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;flex-shrink:0;
+}
+.prog-label.active .prog-dot{background:var(--teal)}
+.prog-label.done .prog-dot{background:var(--green)}
+.progress-bar{
+  height:6px;background:var(--gray-100);border-radius:3px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--teal),var(--green));
+  border-radius:3px;transition:width 0.5s ease;
+}
+
+/* MAIN CARD */
+.form-wrap{max-width:680px;margin:0 auto;padding:32px 24px 80px}
+.form-card{
+  background:var(--white);border-radius:20px;
+  border:1px solid var(--gray-300);
+  box-shadow:var(--shadow-md);overflow:hidden;
+}
+.step-panel{display:none}
+.step-panel.active{display:block}
+
+/* STEP HEADER */
+.card-head{
+  padding:28px 32px 24px;
+  border-bottom:1px solid var(--gray-100);
+}
+.card-head h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;font-weight:700;color:var(--navy);
+  margin-bottom:6px;
+}
+.card-head p{font-size:16px;color:var(--gray-500)}
+
+/* FORM ELEMENTS */
+.card-body{padding:32px}
+.form-section-title{
+  font-size:13px;font-weight:600;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--teal);
+  margin:28px 0 14px;padding-bottom:8px;
+  border-bottom:1px solid var(--gray-300);
+}
+.form-section-title:first-child{margin-top:0}
+
+.form-group{margin-bottom:20px}
+.form-group label{
+  display:block;font-size:16px;font-weight:600;
+  color:var(--navy);margin-bottom:8px;
+}
+.form-group label span.req{color:var(--red);margin-left:3px}
+.form-group label span.opt{
+  font-size:14px;font-weight:400;color:var(--gray-500);margin-left:6px;
+}
+
+input[type=text],input[type=email],select,textarea{
+  width:100%;padding:13px 16px;
+  border:2px solid var(--gray-300);border-radius:10px;
+  font-family:'DM Sans',sans-serif;font-size:16px;
+  color:var(--gray-900);background:var(--white);
+  transition:border-color 0.2s,box-shadow 0.2s;outline:none;
+}
+input[type=text]:focus,input[type=email]:focus,select:focus,textarea:focus{
+  border-color:var(--teal);
+  box-shadow:0 0 0 3px rgba(0,109,119,0.12);
+}
+input.error,select.error,textarea.error{
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(192,57,43,0.1);
+}
+.field-error{
+  font-size:15px;color:var(--red);margin-top:6px;display:none;
+}
+.field-error.show{display:block}
+textarea{resize:vertical;min-height:100px}
+
+/* RATING BUTTONS */
+.rating-group{margin-bottom:24px}
+.rating-label{
+  font-size:16px;font-weight:600;color:var(--navy);margin-bottom:10px;
+}
+.rating-label .aspek-tag{
+  display:inline-block;background:var(--teal-light);
+  color:var(--teal);font-size:13px;font-weight:600;
+  padding:2px 10px;border-radius:5px;margin-left:8px;
+}
+.rating-btns{display:flex;gap:10px;flex-wrap:wrap}
+.rating-btn{
+  flex:1;min-width:60px;
+  padding:14px 8px;border:2px solid var(--gray-300);
+  border-radius:12px;background:var(--white);
+  cursor:pointer;text-align:center;
+  transition:all 0.2s;font-family:'DM Sans',sans-serif;
+}
+.rating-btn .rnum{
+  font-family:'Playfair Display',serif;
+  font-size:26px;font-weight:700;display:block;
+  color:var(--gray-500);transition:color 0.2s;
+}
+.rating-btn .rlbl{font-size:13px;font-weight:500;color:var(--gray-500);transition:color 0.2s}
+.rating-btn:hover{border-color:var(--teal);transform:translateY(-2px)}
+.rating-btn.selected-1{border-color:var(--red);background:var(--red-light)}
+.rating-btn.selected-1 .rnum,.rating-btn.selected-1 .rlbl{color:var(--red)}
+.rating-btn.selected-2{border-color:var(--gold);background:var(--gold-light)}
+.rating-btn.selected-2 .rnum,.rating-btn.selected-2 .rlbl{color:#A0700A}
+.rating-btn.selected-3{border-color:var(--teal);background:var(--teal-light)}
+.rating-btn.selected-3 .rnum,.rating-btn.selected-3 .rlbl{color:var(--teal)}
+.rating-btn.selected-4{border-color:var(--green);background:var(--green-light)}
+.rating-btn.selected-4 .rnum,.rating-btn.selected-4 .rlbl{color:var(--green)}
+.rating-error{font-size:15px;color:var(--red);margin-top:6px;display:none}
+.rating-error.show{display:block}
+
+/* YES/NO RADIO */
+.yn-group{display:flex;gap:12px}
+.yn-btn{
+  flex:1;padding:14px;border:2px solid var(--gray-300);
+  border-radius:12px;background:var(--white);
+  cursor:pointer;text-align:center;font-family:'DM Sans',sans-serif;
+  font-size:17px;font-weight:600;color:var(--gray-500);
+  transition:all 0.2s;
+}
+.yn-btn:hover{border-color:var(--teal)}
+.yn-btn.yn-yes.selected{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.yn-btn.yn-no.selected{border-color:var(--red);background:var(--red-light);color:var(--red)}
+
+/* BUTTONS */
+.card-foot{
+  padding:24px 32px;border-top:1px solid var(--gray-100);
+  display:flex;gap:14px;align-items:center;
+}
+.btn{
+  padding:14px 32px;border-radius:12px;border:none;
+  font-family:'DM Sans',sans-serif;font-size:17px;
+  font-weight:600;cursor:pointer;transition:all 0.2s;
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary{
+  background:var(--teal);color:var(--white);
+}
+.btn-primary:hover{background:#005a63;transform:translateY(-1px)}
+.btn-submit{
+  background:var(--green);color:var(--white);
+}
+.btn-submit:hover{background:#155f3a;transform:translateY(-1px)}
+.btn-back{
+  background:var(--gray-100);color:var(--gray-700);
+}
+.btn-back:hover{background:var(--gray-300)}
+.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none!important}
+
+/* SUCCESS */
+.success-screen{
+  display:none;text-align:center;padding:60px 32px;
+}
+.success-screen.show{display:block}
+.success-icon{font-size:72px;margin-bottom:24px;animation:pop 0.5s ease}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.success-screen h2{
+  font-family:'Playfair Display',serif;
+  font-size:28px;font-weight:700;color:var(--green);margin-bottom:14px;
+}
+.success-screen p{font-size:17px;color:var(--gray-700);margin-bottom:8px}
+.success-screen .back-link{
+  display:inline-block;margin-top:24px;
+  color:var(--teal);font-weight:600;text-decoration:none;font-size:17px;
+}
+.success-screen .back-link:hover{text-decoration:underline}
+
+/* INFO BOX */
+.info-note{
+  background:var(--teal-light);border-left:4px solid var(--teal);
+  border-radius:0 10px 10px 0;padding:16px 20px;
+  font-size:16px;color:var(--gray-700);margin-bottom:24px;
+}
+
+@media(max-width:600px){
+  .form-wrap{padding:20px 12px 60px}
+  .card-head,.card-body,.card-foot{padding:20px}
+  .rating-btns{gap:8px}
+  .rating-btn{padding:12px 4px}
+  .rating-btn .rnum{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="form-header">
+  <div class="badge">Tracer Study · LAM PTIP IAPS 1.0</div>
+  <h1>Formulir Tracer Study<br>Pengguna Lulusan MSP</h1>
+  <p>Program Studi Manajemen Sumber Daya Perairan · FPIK · Universitas Sam Ratulangi Manado</p>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-labels">
+      <div class="prog-label active" id="lbl-1"><div class="prog-dot">1</div> Identitas</div>
+      <div class="prog-label" id="lbl-2"><div class="prog-dot">2</div> Penilaian</div>
+      <div class="prog-label" id="lbl-3"><div class="prog-dot">3</div> Kepuasan &amp; Kirim</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:16%"></div></div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+  <div class="form-card">
+
+    <!-- SUCCESS SCREEN -->
+    <div class="success-screen" id="success-screen">
+      <div class="success-icon">✅</div>
+      <h2>Data Berhasil Dikirim!</h2>
+      <p>Terima kasih atas partisipasi Bapak/Ibu dalam Tracer Study</p>
+      <p>Program Studi MSP FPIK UNSRAT.</p>
+      <p style="margin-top:12px;font-size:16px;color:var(--gray-500)">Data Bapak/Ibu telah tersimpan dengan aman dan akan digunakan untuk keperluan akreditasi LAM PTIP.</p>
+      <a href="index.html" class="back-link">← Kembali ke Halaman Panduan</a>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step-panel active" id="step-1">
+      <div class="card-head">
+        <h2>Langkah 1 — Identitas Instansi &amp; Pengisi</h2>
+        <p>Isi data instansi dan informasi diri Bapak/Ibu sebagai pengisi formulir ini.</p>
+      </div>
+      <div class="card-body">
+        <div class="info-note">📖 Kolom bertanda <strong style="color:var(--red)">*</strong> wajib diisi. Kolom lain bersifat opsional.</div>
+
+        <div class="form-section-title">Data Instansi</div>
+
+        <div class="form-group">
+          <label for="nama_instansi">Nama Instansi / Perusahaan <span class="req">*</span></label>
+          <input type="text" id="nama_instansi" placeholder="Contoh: Dinas Kelautan dan Perikanan Kota Manado">
+          <div class="field-error" id="err-nama_instansi">Nama instansi wajib diisi.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="sektor">Sektor / Bidang Usaha <span class="req">*</span></label>
+          <select id="sektor">
+            <option value="">— Pilih sektor —</option>
+            <option>Pemerintahan / ASN</option>
+            <option>Swasta / Perusahaan</option>
+            <option>BUMN / BUMD</option>
+            <option>Akademik / Perguruan Tinggi</option>
+            <option>Lembaga Riset / Penelitian</option>
+            <option>LSM / NGO</option>
+            <option>Perikanan / Kelautan</option>
+            <option>Lainnya</option>
+          </select>
+          <div class="field-error" id="err-sektor">Sektor wajib dipilih.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="kota">Kota / Kabupaten <span class="req">*</span></label>
+          <input type="text" id="kota" placeholder="Contoh: Manado, Bitung, Minahasa">
+          <div class="field-error" id="err-kota">Kota / Kabupaten wajib diisi.</div>
+        </div>
+
+        <div class="form-section-title">Data Pengisi</div>
+
+        <div class="form-group">
+          <label for="nama_pengisi">Nama Lengkap Pengisi <span class="req">*</span></label>
+          <input type="text" id="nama_pengisi" placeholder="Nama lengkap Bapak/Ibu">
+          <div class="field-error" id="err-nama_pengisi">Nama pengisi wajib diisi.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="jabatan">Jabatan / Posisi <span class="req">*</span></label>
+          <input type="text" id="jabatan" placeholder="Contoh: Kepala Bagian SDM, Direktur Operasional">
+          <div class="field-error" id="err-jabatan">Jabatan wajib diisi.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Alamat Email <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="email@instansi.go.id">
+          <div class="field-error" id="err-email">Alamat email wajib diisi dengan format yang benar.</div>
+        </div>
+
+        <div class="form-section-title">Data Alumni MSP (Opsional)</div>
+
+        <div class="form-group">
+          <label for="nama_alumni">Nama Alumni MSP <span class="opt">(opsional)</span></label>
+          <input type="text" id="nama_alumni" placeholder="Nama alumni jika diketahui">
+        </div>
+
+        <div class="form-group">
+          <label for="jabatan_alumni">Jabatan Alumni di Instansi <span class="opt">(opsional)</span></label>
+          <input type="text" id="jabatan_alumni" placeholder="Contoh: Staf Teknis, Analis">
+        </div>
+
+        <div class="form-group">
+          <label for="tahun_lulus">Tahun Lulus <span class="opt">(opsional)</span></label>
+          <select id="tahun_lulus">
+            <option value="">— Pilih tahun —</option>
+            <option>2024</option><option>2023</option><option>2022</option>
+            <option>2021</option><option>2020</option><option>2019</option>
+            <option>2018</option><option>2017</option><option>2016</option>
+            <option>2015</option><option>Sebelum 2015</option>
+          </select>
+        </div>
+      </div>
+      <div class="card-foot">
+        <button class="btn btn-primary" onclick="goToStep2()">Lanjut ke Langkah 2 →</button>
+        <a href="index.html" style="color:var(--gray-500);font-size:16px;text-decoration:none">← Baca Panduan</a>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-panel" id="step-2">
+      <div class="card-head">
+        <h2>Langkah 2 — Penilaian 7 Aspek Kompetensi</h2>
+        <p>Klik salah satu angka (1–4) untuk menilai setiap aspek. Semua aspek wajib dinilai.</p>
+      </div>
+      <div class="card-body">
+        <div class="info-note">
+          <strong>Skala:</strong> 1 = Kurang &nbsp;·&nbsp; 2 = Cukup &nbsp;·&nbsp; 3 = Baik &nbsp;·&nbsp; 4 = Sangat Baik
+        </div>
+
+        <div id="aspek-container">
+          <!-- Aspek dirender oleh JS -->
+        </div>
+      </div>
+      <div class="card-foot">
+        <button class="btn btn-primary" onclick="goToStep3()">Lanjut ke Langkah 3 →</button>
+        <button class="btn btn-back" onclick="goToStep(1)">← Kembali</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-panel" id="step-3">
+      <div class="card-head">
+        <h2>Langkah 3 — Kepuasan Keseluruhan &amp; Saran</h2>
+        <p>Langkah terakhir. Isi penilaian akhir dan saran Bapak/Ibu.</p>
+      </div>
+      <div class="card-body">
+
+        <div class="form-section-title">Penilaian Keseluruhan</div>
+
+        <div class="rating-group">
+          <div class="rating-label">Tingkat Kepuasan Keseluruhan <span style="color:var(--red)">*</span></div>
+          <div class="rating-btns" id="rating-kepuasan">
+            <button class="rating-btn" data-val="1" onclick="selectRating('kepuasan_keseluruhan',1,this)">
+              <span class="rnum">1</span><span class="rlbl">Kurang</span>
+            </button>
+            <button class="rating-btn" data-val="2" onclick="selectRating('kepuasan_keseluruhan',2,this)">
+              <span class="rnum">2</span><span class="rlbl">Cukup</span>
+            </button>
+            <button class="rating-btn" data-val="3" onclick="selectRating('kepuasan_keseluruhan',3,this)">
+              <span class="rnum">3</span><span class="rlbl">Baik</span>
+            </button>
+            <button class="rating-btn" data-val="4" onclick="selectRating('kepuasan_keseluruhan',4,this)">
+              <span class="rnum">4</span><span class="rlbl">Sangat Baik</span>
+            </button>
+          </div>
+          <div class="rating-error" id="err-kepuasan_keseluruhan">Kepuasan keseluruhan wajib dipilih.</div>
+        </div>
+
+        <div class="form-section-title">Informasi Tambahan (Opsional)</div>
+
+        <div class="form-group">
+          <label>Kesediaan Merekrut Ulang Alumni MSP <span class="opt">(opsional)</span></label>
+          <div class="yn-group">
+            <button class="yn-btn yn-yes" id="yn-ya" onclick="selectYN('ya')">✅ Ya, Bersedia</button>
+            <button class="yn-btn yn-no" id="yn-tidak" onclick="selectYN('tidak')">❌ Tidak</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="saran">Saran untuk Program Studi <span class="opt">(opsional)</span></label>
+          <textarea id="saran" placeholder="Masukan Bapak/Ibu untuk pengembangan kurikulum, kompetensi lulusan, atau hal lain yang perlu diperbaiki..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="pesan_khusus">Pesan Khusus <span class="opt">(opsional)</span></label>
+          <textarea id="pesan_khusus" placeholder="Pesan, harapan, atau apresiasi yang ingin disampaikan kepada Prodi MSP..."></textarea>
+        </div>
+
+        <div id="submit-error" style="display:none" class="field-error show">
+          ⚠️ Gagal mengirim data. Periksa koneksi internet Anda dan coba lagi.
+        </div>
+      </div>
+      <div class="card-foot">
+        <button class="btn btn-submit" id="btn-submit" onclick="submitForm()">
+          <span id="btn-submit-text">📤 Kirim Formulir</span>
+        </button>
+        <button class="btn btn-back" onclick="goToStep(2)">← Kembali</button>
+      </div>
+    </div>
+
+  </div><!-- /form-card -->
+</div><!-- /form-wrap -->
+
+<script>
+const SUPABASE_URL = 'https://ozjlymgywuhmdoqvanlz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96amx5bWd5d3VobWRvcXZhbmx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjIwNDgsImV4cCI6MjA5MjE5ODA0OH0.HZivWZu-XArGaQIO0bNMHRvgMyhZ1QNFT8EZAKLxHEA';
+
+// State
+let currentStep = 1;
+const ratings = {};
+let kesediaanMerekrut = null;
+
+// Aspek definitions
+const aspekList = [
+  {key:'aspek_integritas',     label:'Integritas & Etika Moral',         icon:'⚖️'},
+  {key:'aspek_profesionalisme',label:'Profesionalisme Bidang Ilmu',       icon:'🎓'},
+  {key:'aspek_bahasa_asing',   label:'Kemampuan Bahasa Asing',            icon:'🌐'},
+  {key:'aspek_teknologi_info', label:'Penguasaan Teknologi Informasi',    icon:'💻'},
+  {key:'aspek_komunikasi',     label:'Kemampuan Komunikasi',              icon:'🗣️'},
+  {key:'aspek_kerja_tim',      label:'Kemampuan Kerja Tim',               icon:'🤝'},
+  {key:'aspek_pengembangan',   label:'Kemampuan Pengembangan Diri',       icon:'📈'},
+];
+const ratingLabels = ['','Kurang','Cukup','Baik','Sangat Baik'];
+
+// Render aspek rating buttons
+function renderAspek(){
+  const c = document.getElementById('aspek-container');
+  c.innerHTML = aspekList.map((a,i)=>`
+    <div class="rating-group">
+      <div class="rating-label">
+        ${a.icon} ${a.label}
+        <span class="aspek-tag">Aspek ${i+1}</span>
+        <span style="color:var(--red)">*</span>
+      </div>
+      <div class="rating-btns" id="btns-${a.key}">
+        ${[1,2,3,4].map(v=>`
+          <button class="rating-btn" data-key="${a.key}" data-val="${v}"
+            onclick="selectRating('${a.key}',${v},this)">
+            <span class="rnum">${v}</span>
+            <span class="rlbl">${ratingLabels[v]}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="rating-error" id="err-${a.key}">Aspek ini wajib dinilai.</div>
+    </div>
+  `).join('');
+}
+renderAspek();
+
+// Step navigation
+function goToStep(n){
+  document.getElementById(`step-${currentStep}`).classList.remove('active');
+  currentStep = n;
+  document.getElementById(`step-${currentStep}`).classList.add('active');
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress(){
+  const fills = {1:16, 2:50, 3:85};
+  document.getElementById('progress-fill').style.width = fills[currentStep]+'%';
+  [1,2,3].forEach(i=>{
+    const lbl = document.getElementById(`lbl-${i}`);
+    lbl.className = 'prog-label';
+    if(i < currentStep) lbl.classList.add('done');
+    if(i === currentStep) lbl.classList.add('active');
+  });
+}
+
+// Validation step 1
+function goToStep2(){
+  let valid = true;
+  const required = [
+    {id:'nama_instansi', errId:'err-nama_instansi'},
+    {id:'sektor',        errId:'err-sektor'},
+    {id:'kota',          errId:'err-kota'},
+    {id:'nama_pengisi',  errId:'err-nama_pengisi'},
+    {id:'jabatan',       errId:'err-jabatan'},
+    {id:'email',         errId:'err-email'},
+  ];
+  required.forEach(f=>{
+    const el = document.getElementById(f.id);
+    const err = document.getElementById(f.errId);
+    let ok = el.value.trim() !== '';
+    if(f.id === 'email' && ok){
+      ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
+    }
+    if(!ok){
+      el.classList.add('error');
+      err.classList.add('show');
+      valid = false;
+    } else {
+      el.classList.remove('error');
+      err.classList.remove('show');
+    }
+  });
+  if(valid) goToStep(2);
+}
+
+// Validation step 2
+function goToStep3(){
+  let valid = true;
+  aspekList.forEach(a=>{
+    const err = document.getElementById(`err-${a.key}`);
+    if(!ratings[a.key]){
+      err.classList.add('show');
+      valid = false;
+    } else {
+      err.classList.remove('show');
+    }
+  });
+  if(valid) goToStep(3);
+}
+
+// Select rating
+function selectRating(key, val, btn){
+  ratings[key] = val;
+  const container = btn.closest('.rating-btns') || document.getElementById('rating-'+key) || document.getElementById('btns-'+key);
+  if(container){
+    container.querySelectorAll('.rating-btn').forEach(b=>{
+      b.className='rating-btn';
+    });
+    btn.classList.add(`selected-${val}`);
+  }
+  const err = document.getElementById(`err-${key}`);
+  if(err) err.classList.remove('show');
+}
+
+// Select YN
+function selectYN(val){
+  kesediaanMerekrut = val;
+  document.getElementById('yn-ya').classList.toggle('selected', val==='ya');
+  document.getElementById('yn-tidak').classList.toggle('selected', val==='tidak');
+}
+
+// Submit
+async function submitForm(){
+  // Validate step 3
+  const kep = ratings['kepuasan_keseluruhan'];
+  if(!kep){
+    document.getElementById('err-kepuasan_keseluruhan').classList.add('show');
+    return;
+  }
+  document.getElementById('err-kepuasan_keseluruhan').classList.remove('show');
+
+  const btn = document.getElementById('btn-submit');
+  const btnText = document.getElementById('btn-submit-text');
+  btn.disabled = true;
+  btnText.textContent = '⏳ Mengirim...';
+  document.getElementById('submit-error').style.display = 'none';
+
+  const payload = {
+    nama_instansi:         document.getElementById('nama_instansi').value.trim(),
+    sektor:                document.getElementById('sektor').value,
+    kota:                  document.getElementById('kota').value.trim(),
+    nama_pengisi:          document.getElementById('nama_pengisi').value.trim(),
+    jabatan:               document.getElementById('jabatan').value.trim(),
+    email:                 document.getElementById('email').value.trim(),
+    nama_alumni:           document.getElementById('nama_alumni').value.trim() || null,
+    jabatan_alumni:        document.getElementById('jabatan_alumni').value.trim() || null,
+    tahun_lulus:           document.getElementById('tahun_lulus').value || null,
+    aspek_integritas:      ratings['aspek_integritas'] || null,
+    aspek_profesionalisme: ratings['aspek_profesionalisme'] || null,
+    aspek_bahasa_asing:    ratings['aspek_bahasa_asing'] || null,
+    aspek_teknologi_info:  ratings['aspek_teknologi_info'] || null,
+    aspek_komunikasi:      ratings['aspek_komunikasi'] || null,
+    aspek_kerja_tim:       ratings['aspek_kerja_tim'] || null,
+    aspek_pengembangan:    ratings['aspek_pengembangan'] || null,
+    kepuasan_keseluruhan:  kep,
+    kesediaan_merekrut:    kesediaanMerekrut,
+    saran:                 document.getElementById('saran').value.trim() || null,
+    pesan_khusus:          document.getElementById('pesan_khusus').value.trim() || null,
+  };
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/tracer_pengguna`, {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':        SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if(!res.ok){
+      const errBody = await res.text();
+      console.error('Supabase error:', errBody);
+      throw new Error('HTTP '+res.status);
+    }
+
+    // Show success
+    document.querySelectorAll('.step-panel').forEach(p=>p.style.display='none');
+    document.querySelector('.progress-wrap').style.display='none';
+    document.getElementById('success-screen').classList.add('show');
+    document.getElementById('progress-fill').style.width='100%';
+    window.scrollTo({top:0,behavior:'smooth'});
+
+  } catch(e) {
+    console.error(e);
+    document.getElementById('submit-error').style.display='block';
+    btn.disabled = false;
+    btnText.textContent = '📤 Kirim Formulir';
+  }
+}
+</script>
+</body>
+</html>

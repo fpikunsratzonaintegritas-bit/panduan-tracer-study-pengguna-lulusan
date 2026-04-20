@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — Tracer Study MSP FPIK UNSRAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#003D5B;--teal:#006D77;--teal-light:#E1F5EE;
+  --gold:#C5973A;--gold-light:#FFF8EB;
+  --green:#1B7A4A;--green-light:#EAF3DE;
+  --red:#C0392B;--red-light:#FCEBEB;
+  --gray-50:#F8F9FA;--gray-100:#F1EFE8;--gray-300:#D3D1C7;
+  --gray-500:#888780;--gray-700:#444441;--gray-900:#1A1A18;
+  --white:#FFFFFF;
+  --shadow-sm:0 1px 3px rgba(0,61,91,0.08);
+  --shadow-md:0 4px 16px rgba(0,61,91,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--gray-900);background:var(--gray-50)}
+
+/* LOGIN */
+.login-wrap{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--teal) 100%);
+  padding:24px;
+}
+.login-card{
+  background:var(--white);border-radius:20px;
+  padding:48px 40px;max-width:420px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,0.2);
+}
+.login-logo{
+  font-family:'Playfair Display',serif;
+  font-size:22px;color:var(--navy);font-weight:700;
+  margin-bottom:8px;
+}
+.login-sub{font-size:16px;color:var(--gray-500);margin-bottom:32px}
+.login-card label{display:block;font-size:15px;font-weight:600;color:var(--navy);margin-bottom:8px}
+.login-card input{
+  width:100%;padding:13px 16px;border:2px solid var(--gray-300);
+  border-radius:10px;font-size:16px;outline:none;
+  font-family:'DM Sans',sans-serif;transition:border-color 0.2s;
+  margin-bottom:20px;
+}
+.login-card input:focus{border-color:var(--teal)}
+.login-btn{
+  width:100%;padding:14px;background:var(--teal);color:var(--white);
+  border:none;border-radius:10px;font-size:17px;font-weight:600;
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;
+}
+.login-btn:hover{background:#005a63}
+.login-error{color:var(--red);font-size:15px;margin-top:10px;display:none}
+
+/* ADMIN UI */
+#admin-ui{display:none}
+.topbar{
+  background:var(--navy);color:var(--white);
+  padding:0 24px;display:flex;align-items:center;gap:0;
+  box-shadow:var(--shadow-md);position:sticky;top:0;z-index:100;
+}
+.topbar-brand{
+  font-family:'Playfair Display',serif;font-size:16px;
+  padding:18px 20px 18px 0;border-right:1px solid rgba(255,255,255,0.15);
+  margin-right:16px;
+}
+.topbar-title{font-size:16px;font-weight:500;opacity:0.85}
+.topbar-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+.tbtn{
+  padding:9px 18px;border-radius:8px;border:none;
+  font-family:'DM Sans',sans-serif;font-size:15px;
+  font-weight:600;cursor:pointer;transition:all 0.2s;
+}
+.tbtn-green{background:var(--green);color:var(--white)}
+.tbtn-green:hover{background:#155f3a}
+.tbtn-ghost{background:rgba(255,255,255,0.12);color:var(--white)}
+.tbtn-ghost:hover{background:rgba(255,255,255,0.2)}
+
+.page{max-width:1280px;margin:0 auto;padding:32px 24px 60px}
+
+/* STAT CARDS */
+.stat-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:32px;
+}
+.stat-card{
+  background:var(--white);border-radius:16px;
+  border:1px solid var(--gray-300);padding:24px 26px;
+  box-shadow:var(--shadow-sm);
+}
+.stat-card .num{
+  font-family:'Playfair Display',serif;
+  font-size:40px;font-weight:700;color:var(--navy);
+  display:block;line-height:1;margin-bottom:6px;
+}
+.stat-card .lbl{font-size:15px;color:var(--gray-500);font-weight:500}
+.stat-card .sub{font-size:14px;color:var(--gray-500);margin-top:4px}
+
+/* CHART */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:32px}
+.chart-card{
+  background:var(--white);border-radius:16px;
+  border:1px solid var(--gray-300);padding:24px;
+  box-shadow:var(--shadow-sm);
+}
+.chart-title{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:18px}
+
+.bar-chart{display:flex;flex-direction:column;gap:10px}
+.bar-item{display:flex;align-items:center;gap:12px}
+.bar-label{font-size:14px;color:var(--gray-700);width:160px;flex-shrink:0}
+.bar-track{flex:1;height:28px;background:var(--gray-100);border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:10px;
+  font-size:14px;font-weight:600;color:var(--white);transition:width 1s ease;min-width:36px;}
+.bar-val{font-size:14px;font-weight:600;color:var(--navy);width:36px;text-align:right}
+
+.scale-grid{display:flex;gap:10px}
+.scale-box{
+  flex:1;border-radius:12px;padding:16px;text-align:center;
+}
+.scale-box .snum{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;display:block}
+.scale-box .slbl{font-size:14px;font-weight:600}
+.scale-box .scount{font-size:22px;font-weight:700;margin-top:6px;display:block}
+.scale-box .spct{font-size:13px;opacity:0.75}
+
+/* TABLE */
+.table-card{
+  background:var(--white);border-radius:16px;
+  border:1px solid var(--gray-300);
+  box-shadow:var(--shadow-sm);overflow:hidden;
+}
+.table-head{
+  padding:20px 24px;border-bottom:1px solid var(--gray-300);
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.table-head h3{font-size:18px;font-weight:700;color:var(--navy)}
+.table-search{
+  margin-left:auto;padding:10px 16px;border:1.5px solid var(--gray-300);
+  border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;
+  outline:none;min-width:220px;
+}
+.table-search:focus{border-color:var(--teal)}
+
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{
+  background:var(--gray-50);font-size:13px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.07em;color:var(--gray-500);
+  padding:12px 16px;text-align:left;border-bottom:1px solid var(--gray-300);
+  white-space:nowrap;
+}
+td{
+  padding:14px 16px;font-size:15px;border-bottom:1px solid var(--gray-100);
+  vertical-align:top;
+}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--gray-50)}
+
+.badge-r{
+  display:inline-block;width:30px;height:30px;border-radius:50%;
+  text-align:center;line-height:30px;font-size:14px;font-weight:700;
+}
+.r1{background:var(--red-light);color:var(--red)}
+.r2{background:var(--gold-light);color:#A0700A}
+.r3{background:var(--teal-light);color:var(--teal)}
+.r4{background:var(--green-light);color:var(--green)}
+
+.detail-btn{
+  background:var(--teal);color:var(--white);border:none;
+  padding:6px 14px;border-radius:6px;font-size:14px;font-weight:600;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+}
+.detail-btn:hover{background:#005a63}
+
+.empty-state{text-align:center;padding:60px;color:var(--gray-500)}
+.empty-icon{font-size:48px;margin-bottom:12px}
+.loading{text-align:center;padding:40px;color:var(--gray-500);font-size:16px}
+
+/* PAGINATION */
+.pagination{
+  display:flex;justify-content:center;gap:8px;padding:20px;
+  border-top:1px solid var(--gray-300);
+}
+.page-btn{
+  padding:8px 14px;border:1.5px solid var(--gray-300);border-radius:8px;
+  background:var(--white);font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  font-weight:500;transition:all 0.2s;color:var(--gray-700);
+}
+.page-btn:hover{border-color:var(--teal);color:var(--teal)}
+.page-btn.active{background:var(--teal);border-color:var(--teal);color:var(--white)}
+
+/* MODAL */
+.modal-bg{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);
+  z-index:200;align-items:center;justify-content:center;padding:20px;
+}
+.modal-bg.show{display:flex}
+.modal{
+  background:var(--white);border-radius:20px;max-width:640px;width:100%;
+  max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);
+}
+.modal-head{
+  padding:24px 28px;border-bottom:1px solid var(--gray-300);
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);
+}
+.modal-head h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--navy)}
+.modal-close{
+  width:36px;height:36px;border-radius:50%;border:none;
+  background:var(--gray-100);cursor:pointer;font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal-body{padding:24px 28px}
+.detail-row{
+  display:flex;gap:12px;padding:12px 0;
+  border-bottom:1px solid var(--gray-100);font-size:15px;
+}
+.detail-row:last-child{border-bottom:none}
+.detail-key{font-weight:600;color:var(--navy);width:180px;flex-shrink:0}
+.detail-val{color:var(--gray-700)}
+
+@media(max-width:900px){
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .chart-row{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .stat-grid{grid-template-columns:1fr}
+  .scale-grid{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">🌊 MSP FPIK UNSRAT</div>
+    <div class="login-sub">Admin Dashboard — Tracer Study Pengguna Lulusan</div>
+    <label for="admin-pass">Password Admin</label>
+    <input type="password" id="admin-pass" placeholder="Masukkan password admin"
+      onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Masuk →</button>
+    <div class="login-error" id="login-error">Password salah. Coba lagi.</div>
+  </div>
+</div>
+
+<!-- ADMIN UI -->
+<div id="admin-ui">
+  <div class="topbar">
+    <div class="topbar-brand">MSP FPIK UNSRAT</div>
+    <div class="topbar-title">Admin — Tracer Study Pengguna Lulusan</div>
+    <div class="topbar-actions">
+      <button class="tbtn tbtn-green" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="tbtn tbtn-ghost" onclick="loadData()">↻ Refresh</button>
+      <button class="tbtn tbtn-ghost" onclick="logout()">Keluar</button>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- STATS -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="num" id="stat-total">—</span>
+        <div class="lbl">Total Responden</div>
+        <div class="sub" id="stat-period">memuat...</div>
+      </div>
+      <div class="stat-card">
+        <span class="num" id="stat-avg-kepuasan">—</span>
+        <div class="lbl">Rata-rata Kepuasan</div>
+        <div class="sub">dari skala 1–4</div>
+      </div>
+      <div class="stat-card">
+        <span class="num" id="stat-avg-aspek">—</span>
+        <div class="lbl">Rata-rata Kompetensi</div>
+        <div class="sub">7 aspek LAM PTIP</div>
+      </div>
+      <div class="stat-card">
+        <span class="num" id="stat-rekrut">—</span>
+        <div class="lbl">Bersedia Merekrut</div>
+        <div class="sub" id="stat-rekrut-sub">dari total responden</div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="chart-row">
+      <div class="chart-card">
+        <div class="chart-title">Rata-rata 7 Aspek Kompetensi</div>
+        <div class="bar-chart" id="aspek-chart">
+          <div class="loading">Memuat data...</div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Distribusi Kepuasan Keseluruhan</div>
+        <div class="scale-grid" id="kepuasan-chart">
+          <div class="loading">Memuat data...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card">
+      <div class="table-head">
+        <h3>Data Responden</h3>
+        <input type="text" class="table-search" id="table-search"
+          placeholder="🔍 Cari instansi, nama, kota..."
+          oninput="filterTable()">
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Tanggal</th>
+              <th>Instansi</th>
+              <th>Kota</th>
+              <th>Pengisi</th>
+              <th>Email</th>
+              <th>Kepuasan</th>
+              <th>Rata-rata</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td colspan="9" class="loading">Memuat data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL DETAIL -->
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Detail Responden</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://ozjlymgywuhmdoqvanlz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96amx5bWd5d3VobWRvcXZhbmx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjIwNDgsImV4cCI6MjA5MjE5ODA0OH0.HZivWZu-XArGaQIO0bNMHRvgMyhZ1QNFT8EZAKLxHEA';
+
+// Simple admin password (change this!)
+const ADMIN_PASS = 'admin-msp-2025';
+
+let allData = [];
+let filteredData = [];
+let currentPage = 1;
+const PAGE_SIZE = 15;
+
+function doLogin(){
+  const pass = document.getElementById('admin-pass').value;
+  if(pass === ADMIN_PASS){
+    document.getElementById('login-wrap').style.display='none';
+    document.getElementById('admin-ui').style.display='block';
+    loadData();
+  } else {
+    document.getElementById('login-error').style.display='block';
+  }
+}
+
+function logout(){
+  document.getElementById('login-wrap').style.display='flex';
+  document.getElementById('admin-ui').style.display='none';
+  document.getElementById('admin-pass').value='';
+}
+
+async function loadData(){
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/tracer_pengguna?select=*&order=created_at.desc&limit=1000`,
+      {headers:{apikey:SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}}
+    );
+    if(!res.ok) throw new Error('Fetch failed');
+    allData = await res.json();
+    filteredData = [...allData];
+    currentPage = 1;
+    renderStats();
+    renderCharts();
+    renderTable();
+  } catch(e){
+    console.error(e);
+    document.getElementById('table-body').innerHTML =
+      '<tr><td colspan="9" style="color:var(--red);text-align:center;padding:30px">Gagal memuat data. Periksa koneksi Anda.</td></tr>';
+  }
+}
+
+function renderStats(){
+  const n = allData.length;
+  document.getElementById('stat-total').textContent = n;
+
+  // Date range
+  if(n > 0){
+    const dates = allData.map(d=>new Date(d.created_at));
+    const earliest = new Date(Math.min(...dates));
+    document.getElementById('stat-period').textContent =
+      'Sejak '+earliest.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+  }
+
+  // Avg kepuasan
+  const kepArr = allData.filter(d=>d.kepuasan_keseluruhan).map(d=>d.kepuasan_keseluruhan);
+  const avgKep = kepArr.length ? (kepArr.reduce((a,b)=>a+b,0)/kepArr.length).toFixed(2) : '—';
+  document.getElementById('stat-avg-kepuasan').textContent = avgKep;
+
+  // Avg all 7 aspek
+  const aspekKeys = ['aspek_integritas','aspek_profesionalisme','aspek_bahasa_asing',
+    'aspek_teknologi_info','aspek_komunikasi','aspek_kerja_tim','aspek_pengembangan'];
+  let sum=0,cnt=0;
+  allData.forEach(d=>aspekKeys.forEach(k=>{if(d[k]){sum+=d[k];cnt++;}}));
+  document.getElementById('stat-avg-aspek').textContent = cnt ? (sum/cnt).toFixed(2) : '—';
+
+  // Rekrut
+  const rekrutYa = allData.filter(d=>d.kesediaan_merekrut==='ya').length;
+  document.getElementById('stat-rekrut').textContent = rekrutYa;
+  const rekrutTotal = allData.filter(d=>d.kesediaan_merekrut).length;
+  const pct = rekrutTotal ? Math.round(rekrutYa/rekrutTotal*100) : 0;
+  document.getElementById('stat-rekrut-sub').textContent =
+    rekrutTotal ? `${pct}% dari ${rekrutTotal} yang menjawab` : 'Belum ada data';
+}
+
+function avgAspek(key){
+  const vals = allData.filter(d=>d[key]).map(d=>d[key]);
+  return vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
+}
+
+function renderCharts(){
+  // BAR CHART - 7 aspek
+  const aspekDef = [
+    {key:'aspek_integritas',     label:'Integritas & Etika'},
+    {key:'aspek_profesionalisme',label:'Profesionalisme'},
+    {key:'aspek_bahasa_asing',   label:'Bahasa Asing'},
+    {key:'aspek_teknologi_info', label:'Teknologi Informasi'},
+    {key:'aspek_komunikasi',     label:'Komunikasi'},
+    {key:'aspek_kerja_tim',      label:'Kerja Tim'},
+    {key:'aspek_pengembangan',   label:'Pengembangan Diri'},
+  ];
+  const colors=['#006D77','#1B7A4A','#C5973A','#003D5B','#006D77','#1B7A4A','#C0392B'];
+  const barHtml = aspekDef.map((a,i)=>{
+    const avg = avgAspek(a.key);
+    const pct = avg/4*100;
+    return `
+      <div class="bar-item">
+        <div class="bar-label">${a.label}</div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:${pct.toFixed(1)}%;background:${colors[i]}">
+            ${avg.toFixed(2)}
+          </div>
+        </div>
+        <div class="bar-val">${avg.toFixed(1)}</div>
+      </div>`;
+  }).join('');
+  document.getElementById('aspek-chart').innerHTML = barHtml || '<div class="empty-state">Belum ada data</div>';
+
+  // SCALE CHART - kepuasan distribution
+  const scaleDef=[
+    {val:1,lbl:'Kurang',cls:'r1',bg:'var(--red-light)',c:'var(--red)'},
+    {val:2,lbl:'Cukup', cls:'r2',bg:'var(--gold-light)',c:'#A0700A'},
+    {val:3,lbl:'Baik',  cls:'r3',bg:'var(--teal-light)',c:'var(--teal)'},
+    {val:4,lbl:'Sangat Baik',cls:'r4',bg:'var(--green-light)',c:'var(--green)'},
+  ];
+  const total = allData.filter(d=>d.kepuasan_keseluruhan).length;
+  const scaleHtml = scaleDef.map(s=>{
+    const cnt = allData.filter(d=>d.kepuasan_keseluruhan===s.val).length;
+    const pct = total ? Math.round(cnt/total*100) : 0;
+    return `
+      <div class="scale-box" style="background:${s.bg}">
+        <span class="snum" style="color:${s.c}">${s.val}</span>
+        <span class="slbl" style="color:${s.c}">${s.lbl}</span>
+        <span class="scount" style="color:${s.c}">${cnt}</span>
+        <span class="spct" style="color:${s.c}">${pct}%</span>
+      </div>`;
+  }).join('');
+  document.getElementById('kepuasan-chart').innerHTML = scaleHtml || '<div class="loading">Belum ada data</div>';
+}
+
+function ratingBadge(v){
+  if(!v) return '<span style="color:var(--gray-300)">—</span>';
+  return `<span class="badge-r r${v}">${v}</span>`;
+}
+
+function avgRow(d){
+  const keys=['aspek_integritas','aspek_profesionalisme','aspek_bahasa_asing',
+    'aspek_teknologi_info','aspek_komunikasi','aspek_kerja_tim','aspek_pengembangan'];
+  const vals=keys.filter(k=>d[k]).map(k=>d[k]);
+  return vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2):'—';
+}
+
+function renderTable(){
+  const start=(currentPage-1)*PAGE_SIZE;
+  const page=filteredData.slice(start,start+PAGE_SIZE);
+  const tbody=document.getElementById('table-body');
+
+  if(filteredData.length===0){
+    tbody.innerHTML='<tr><td colspan="9"><div class="empty-state"><div class="empty-icon">📭</div>Belum ada data responden.</div></td></tr>';
+    document.getElementById('pagination').innerHTML='';
+    return;
+  }
+
+  tbody.innerHTML=page.map((d,i)=>{
+    const date=new Date(d.created_at).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+    return `<tr>
+      <td style="color:var(--gray-500)">${start+i+1}</td>
+      <td style="white-space:nowrap">${date}</td>
+      <td><strong>${escHtml(d.nama_instansi)}</strong><br><span style="font-size:13px;color:var(--gray-500)">${escHtml(d.sektor||'')}</span></td>
+      <td>${escHtml(d.kota||'')}</td>
+      <td>${escHtml(d.nama_pengisi||'')}</td>
+      <td style="font-size:14px">${escHtml(d.email||'')}</td>
+      <td style="text-align:center">${ratingBadge(d.kepuasan_keseluruhan)}</td>
+      <td style="text-align:center;font-weight:600;color:var(--navy)">${avgRow(d)}</td>
+      <td><button class="detail-btn" onclick="showDetail(${d.id})">Lihat</button></td>
+    </tr>`;
+  }).join('');
+
+  renderPagination();
+}
+
+function renderPagination(){
+  const total=Math.ceil(filteredData.length/PAGE_SIZE);
+  if(total<=1){document.getElementById('pagination').innerHTML='';return}
+  let html='';
+  if(currentPage>1) html+=`<button class="page-btn" onclick="gotoPage(${currentPage-1})">‹</button>`;
+  for(let i=1;i<=total;i++){
+    if(i===1||i===total||Math.abs(i-currentPage)<=1){
+      html+=`<button class="page-btn${i===currentPage?' active':''}" onclick="gotoPage(${i})">${i}</button>`;
+    } else if(Math.abs(i-currentPage)===2){
+      html+='<span style="padding:8px 4px;color:var(--gray-500)">…</span>';
+    }
+  }
+  if(currentPage<total) html+=`<button class="page-btn" onclick="gotoPage(${currentPage+1})">›</button>`;
+  document.getElementById('pagination').innerHTML=html;
+}
+
+function gotoPage(n){currentPage=n;renderTable();window.scrollTo({top:document.querySelector('.table-card').offsetTop-20,behavior:'smooth'})}
+
+function filterTable(){
+  const q=document.getElementById('table-search').value.toLowerCase();
+  filteredData=allData.filter(d=>
+    (d.nama_instansi||'').toLowerCase().includes(q)||
+    (d.nama_pengisi||'').toLowerCase().includes(q)||
+    (d.kota||'').toLowerCase().includes(q)||
+    (d.email||'').toLowerCase().includes(q)||
+    (d.sektor||'').toLowerCase().includes(q)
+  );
+  currentPage=1;
+  renderTable();
+}
+
+function showDetail(id){
+  const d=allData.find(r=>r.id===id);
+  if(!d)return;
+  const date=new Date(d.created_at).toLocaleString('id-ID');
+  const aspekLabels={
+    aspek_integritas:'Integritas & Etika Moral',
+    aspek_profesionalisme:'Profesionalisme Bidang Ilmu',
+    aspek_bahasa_asing:'Kemampuan Bahasa Asing',
+    aspek_teknologi_info:'Teknologi Informasi',
+    aspek_komunikasi:'Kemampuan Komunikasi',
+    aspek_kerja_tim:'Kemampuan Kerja Tim',
+    aspek_pengembangan:'Pengembangan Diri',
+  };
+  const scaleLabel=['','Kurang','Cukup','Baik','Sangat Baik'];
+  let html=`
+    <div class="detail-row"><div class="detail-key">Tanggal & Waktu</div><div class="detail-val">${date}</div></div>
+    <div class="detail-row"><div class="detail-key">Nama Instansi</div><div class="detail-val">${escHtml(d.nama_instansi||'—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Sektor</div><div class="detail-val">${escHtml(d.sektor||'—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Kota / Kabupaten</div><div class="detail-val">${escHtml(d.kota||'—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Nama Pengisi</div><div class="detail-val">${escHtml(d.nama_pengisi||'—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Jabatan</div><div class="detail-val">${escHtml(d.jabatan||'—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Email</div><div class="detail-val">${escHtml(d.email||'—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Alumni MSP</div><div class="detail-val">${escHtml(d.nama_alumni||'—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Jabatan Alumni</div><div class="detail-val">${escHtml(d.jabatan_alumni||'—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Tahun Lulus</div><div class="detail-val">${escHtml(d.tahun_lulus||'—')}</div></div>
+  `;
+  Object.entries(aspekLabels).forEach(([k,lbl])=>{
+    const v=d[k];
+    html+=`<div class="detail-row">
+      <div class="detail-key">${lbl}</div>
+      <div class="detail-val">${v?`<span class="badge-r r${v}" style="display:inline-flex">${v}</span> ${scaleLabel[v]}`:'—'}</div>
+    </div>`;
+  });
+  html+=`
+    <div class="detail-row"><div class="detail-key">Kepuasan Keseluruhan</div><div class="detail-val">${d.kepuasan_keseluruhan?`<span class="badge-r r${d.kepuasan_keseluruhan}" style="display:inline-flex">${d.kepuasan_keseluruhan}</span> ${scaleLabel[d.kepuasan_keseluruhan]}`:'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Bersedia Merekrut</div><div class="detail-val">${d.kesediaan_merekrut==='ya'?'✅ Ya':d.kesediaan_merekrut==='tidak'?'❌ Tidak':'—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Saran</div><div class="detail-val">${escHtml(d.saran||'—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Pesan Khusus</div><div class="detail-val">${escHtml(d.pesan_khusus||'—')}</div></div>
+  `;
+  document.getElementById('modal-body').innerHTML=html;
+  document.getElementById('modal-bg').classList.add('show');
+}
+
+function closeModal(){document.getElementById('modal-bg').classList.remove('show')}
+
+function exportCSV(){
+  if(!allData.length){alert('Tidak ada data untuk diekspor.');return}
+  const headers=['ID','Tanggal','Nama Instansi','Sektor','Kota','Nama Pengisi','Jabatan','Email',
+    'Nama Alumni','Jabatan Alumni','Tahun Lulus',
+    'Integritas','Profesionalisme','Bahasa Asing','Teknologi Info','Komunikasi','Kerja Tim','Pengembangan',
+    'Kepuasan Keseluruhan','Kesediaan Merekrut','Saran','Pesan Khusus'];
+  const rows=allData.map(d=>[
+    d.id,
+    new Date(d.created_at).toLocaleString('id-ID'),
+    d.nama_instansi,d.sektor,d.kota,d.nama_pengisi,d.jabatan,d.email,
+    d.nama_alumni||'',d.jabatan_alumni||'',d.tahun_lulus||'',
+    d.aspek_integritas||'',d.aspek_profesionalisme||'',d.aspek_bahasa_asing||'',
+    d.aspek_teknologi_info||'',d.aspek_komunikasi||'',d.aspek_kerja_tim||'',d.aspek_pengembangan||'',
+    d.kepuasan_keseluruhan||'',d.kesediaan_merekrut||'',d.saran||'',d.pesan_khusus||''
+  ].map(v=>'"'+String(v||'').replace(/"/g,'""')+'"'));
+
+  const csv=[headers.map(h=>'"'+h+'"').join(','),...rows.map(r=>r.join(','))].join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`tracer-study-msp-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>

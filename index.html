@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Tracer Study — Pengguna Lulusan MSP FPIK UNSRAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:       #003D5B;
+  --teal:       #006D77;
+  --teal-light: #E1F5EE;
+  --gold:       #C5973A;
+  --gold-light: #FFF8EB;
+  --green:      #1B7A4A;
+  --green-light:#EAF3DE;
+  --red:        #C0392B;
+  --red-light:  #FCEBEB;
+  --gray-50:    #F8F9FA;
+  --gray-100:   #F1EFE8;
+  --gray-300:   #D3D1C7;
+  --gray-500:   #888780;
+  --gray-700:   #444441;
+  --gray-900:   #1A1A18;
+  --white:      #FFFFFF;
+  --shadow-sm:  0 1px 3px rgba(0,61,91,0.08);
+  --shadow-md:  0 4px 16px rgba(0,61,91,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  font-size:17px;
+  line-height:1.75;
+  color:var(--gray-900);
+  background:var(--gray-50);
+}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--navy);
+  box-shadow:var(--shadow-md);
+}
+.nav-inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;
+  padding:0 24px;overflow-x:auto;gap:0;
+}
+.nav-brand{
+  font-family:'Playfair Display',serif;
+  color:var(--white);font-size:15px;
+  padding:16px 20px 16px 0;
+  border-right:1px solid rgba(255,255,255,0.15);
+  margin-right:8px;white-space:nowrap;flex-shrink:0;
+}
+.nav a{
+  color:rgba(255,255,255,0.75);text-decoration:none;
+  font-size:15px;padding:16px 16px;
+  white-space:nowrap;transition:all 0.2s;display:block;
+  font-weight:500;
+}
+.nav a:hover{color:var(--white);background:rgba(255,255,255,0.1)}
+.nav-cta{
+  margin-left:auto;flex-shrink:0;
+  background:var(--gold);color:var(--white) !important;
+  border-radius:8px;padding:8px 18px !important;
+  font-weight:600 !important;
+  margin-top:8px;margin-bottom:8px;
+}
+.nav-cta:hover{background:#b3872e !important}
+
+/* LAYOUT */
+.page-wrap{max-width:1120px;margin:0 auto;padding:0 24px 80px}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--teal) 100%);
+  color:var(--white);
+  padding:72px 48px;
+  border-radius:0 0 28px 28px;
+  margin:0 -24px 56px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;right:-80px;top:-80px;
+  width:380px;height:380px;
+  background:rgba(255,255,255,0.04);
+  border-radius:50%;
+}
+.hero::after{
+  content:'';position:absolute;right:80px;bottom:-60px;
+  width:240px;height:240px;
+  background:rgba(255,255,255,0.03);
+  border-radius:50%;
+}
+.hero-badge{
+  display:inline-block;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.3);
+  color:rgba(255,255,255,0.95);
+  font-size:13px;letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:6px 16px;border-radius:24px;
+  margin-bottom:20px;font-weight:600;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,4vw,46px);
+  font-weight:700;line-height:1.2;
+  margin-bottom:20px;position:relative;
+}
+.hero-sub{
+  font-size:18px;opacity:0.88;
+  max-width:600px;line-height:1.65;
+  margin-bottom:36px;position:relative;
+}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap;position:relative}
+.hero-stat{text-align:center}
+.hero-stat .num{
+  font-family:'Playfair Display',serif;
+  font-size:36px;font-weight:700;
+  display:block;line-height:1;margin-bottom:6px;
+}
+.hero-stat .lbl{
+  font-size:14px;opacity:0.75;
+  text-transform:uppercase;letter-spacing:0.08em;
+}
+
+/* ALERT BANNER */
+.alert-banner{
+  background:var(--gold-light);
+  border:2px solid var(--gold);
+  border-radius:14px;
+  padding:20px 28px;
+  margin-bottom:40px;
+  display:flex;align-items:flex-start;gap:16px;
+}
+.alert-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.alert-title{font-size:17px;font-weight:700;color:#7a5010;margin-bottom:4px}
+.alert-text{font-size:16px;color:var(--gray-700)}
+.alert-btn{
+  display:inline-block;margin-top:10px;
+  background:var(--gold);color:var(--white);
+  text-decoration:none;font-weight:600;
+  padding:10px 24px;border-radius:10px;
+  font-size:16px;transition:background 0.2s;
+}
+.alert-btn:hover{background:#b3872e}
+
+/* SECTION */
+.section{margin-bottom:64px;scroll-margin-top:70px}
+.section-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:600;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:10px;
+}
+.section-tag::before{
+  content:'';display:block;width:24px;height:2px;
+  background:var(--teal);border-radius:1px;
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:30px;font-weight:700;color:var(--navy);
+  margin-bottom:10px;line-height:1.25;
+}
+.section-sub{font-size:17px;color:var(--gray-500);margin-bottom:32px}
+
+/* DIVIDER */
+hr.divider{border:none;height:1px;background:var(--gray-300);margin:56px 0}
+
+/* STEP BLOCK */
+.step-block{
+  background:var(--white);border-radius:18px;
+  border:1px solid var(--gray-300);margin-bottom:28px;
+  overflow:hidden;box-shadow:var(--shadow-sm);
+}
+.step-head{
+  display:flex;align-items:center;gap:20px;
+  padding:24px 32px;background:var(--teal);color:var(--white);
+}
+.step-num{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:22px;font-weight:700;flex-shrink:0;
+}
+.step-head-info h3{font-size:19px;font-weight:600;margin-bottom:4px}
+.step-head-info p{font-size:15px;opacity:0.82}
+.step-body{padding:32px}
+.step-body h4{
+  font-size:14px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--teal);margin:24px 0 12px;
+  padding-bottom:8px;border-bottom:1px solid var(--gray-300);
+}
+.step-body h4:first-child{margin-top:0}
+
+/* FIELDS */
+.field-list{list-style:none}
+.field-item{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:14px 0;border-bottom:1px solid var(--gray-100);
+}
+.field-item:last-child{border-bottom:none}
+.field-name{
+  font-weight:600;font-size:16px;
+  min-width:220px;color:var(--navy);
+}
+.field-desc{font-size:16px;color:var(--gray-700)}
+.badge{
+  display:inline-block;font-size:12px;font-weight:600;
+  padding:3px 10px;border-radius:5px;margin-left:6px;
+}
+.badge-wajib{background:var(--red-light);color:var(--red)}
+.badge-opsional{background:var(--gray-100);color:var(--gray-500)}
+
+/* SCREENSHOT BOX */
+.screenshot-box{
+  background:var(--gray-100);border:2px dashed var(--gray-300);
+  border-radius:12px;padding:20px 24px;margin:16px 0 20px;
+  font-size:16px;color:var(--gray-500);
+}
+.screenshot-box strong{
+  color:var(--gray-700);font-size:16px;
+  display:block;margin-bottom:8px;
+}
+
+/* RATING GRID */
+.rating-explain{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:12px;margin:16px 0 20px;
+}
+.rating-box{border-radius:12px;padding:16px;text-align:center}
+.rating-box .num{
+  font-family:'Playfair Display',serif;
+  font-size:32px;font-weight:700;display:block;margin-bottom:6px;
+}
+.rating-box .lbl{font-size:15px;font-weight:600}
+.rating-box .desc{font-size:14px;margin-top:6px}
+.r-kurang{background:var(--red-light);color:var(--red)}
+.r-cukup {background:var(--gold-light);color:#A0700A}
+.r-baik  {background:var(--teal-light);color:var(--teal)}
+.r-sangat{background:var(--green-light);color:var(--green)}
+
+/* ASPEK GRID */
+.aspek-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:12px;margin:16px 0;
+}
+.aspek-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--teal-light);border-radius:10px;
+  padding:14px 16px;font-size:16px;
+}
+.aspek-num{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--teal);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;flex-shrink:0;
+}
+
+/* CALLOUT BOXES */
+.tip-box{
+  background:var(--gold-light);border-left:5px solid var(--gold);
+  border-radius:0 10px 10px 0;padding:18px 22px;
+  font-size:16px;margin:16px 0;
+}
+.tip-box strong{color:#7a5010}
+.error-box{
+  background:var(--red-light);border-left:5px solid var(--red);
+  border-radius:0 10px 10px 0;padding:18px 22px;
+  font-size:16px;margin:16px 0;
+}
+.error-box strong{color:var(--red)}
+.success-box{
+  background:var(--green-light);border-left:5px solid var(--green);
+  border-radius:0 10px 10px 0;padding:18px 22px;
+  font-size:16px;margin:16px 0;
+}
+.success-box strong{color:var(--green)}
+
+/* FAQ ACCORDION */
+.faq-item{
+  background:var(--white);border-radius:14px;
+  border:1px solid var(--gray-300);
+  margin-bottom:12px;overflow:hidden;
+}
+.faq-q{
+  background:var(--navy);color:var(--white);
+  padding:18px 24px;font-size:17px;font-weight:600;
+  display:flex;align-items:center;gap:14px;
+  cursor:pointer;user-select:none;
+  transition:background 0.2s;
+}
+.faq-q:hover{background:#004d73}
+.faq-q-icon{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--gold);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:700;flex-shrink:0;
+}
+.faq-chevron{margin-left:auto;transition:transform 0.3s;font-size:18px;flex-shrink:0}
+.faq-item.open .faq-chevron{transform:rotate(180deg)}
+.faq-a{
+  padding:0 24px;font-size:17px;color:var(--gray-700);
+  line-height:1.75;max-height:0;overflow:hidden;
+  transition:max-height 0.35s ease,padding 0.3s;
+}
+.faq-item.open .faq-a{max-height:400px;padding:20px 24px}
+
+/* INFOGRAFIS */
+.infografis{
+  background:var(--white);border-radius:22px;
+  border:1px solid var(--gray-300);
+  overflow:hidden;box-shadow:var(--shadow-md);
+  max-width:820px;margin:0 auto;
+}
+.info-header{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--teal) 100%);
+  color:var(--white);text-align:center;padding:44px 40px 36px;
+}
+.info-header .sup{
+  font-size:13px;letter-spacing:0.1em;
+  text-transform:uppercase;opacity:0.75;margin-bottom:10px;
+}
+.info-header h2{
+  font-family:'Playfair Display',serif;
+  font-size:30px;font-weight:700;line-height:1.2;margin-bottom:10px;
+}
+.info-header .time-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold);color:var(--white);
+  font-weight:600;font-size:16px;
+  padding:8px 22px;border-radius:24px;margin-top:14px;
+}
+.info-steps{display:grid;grid-template-columns:repeat(3,1fr)}
+.info-step{
+  padding:32px 28px;border-right:1px solid var(--gray-300);
+  position:relative;
+}
+.info-step:last-child{border-right:none}
+.info-step-num{
+  font-family:'Playfair Display',serif;
+  font-size:56px;font-weight:700;
+  line-height:1;margin-bottom:10px;
+}
+.info-step h3{font-size:16px;font-weight:700;margin-bottom:10px}
+.info-step-items{list-style:none;font-size:15px;color:var(--gray-700)}
+.info-step-items li{
+  padding:4px 0 4px 18px;position:relative;
+}
+.info-step-items li::before{
+  content:'•';color:var(--teal);
+  position:absolute;left:0;font-weight:700;
+}
+.info-arrow{
+  position:absolute;right:-15px;top:50%;
+  transform:translateY(-50%);z-index:1;
+  width:30px;height:30px;border-radius:50%;
+  background:var(--teal);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--white);font-size:15px;
+}
+.info-aspek{
+  background:var(--gray-50);border-top:1px solid var(--gray-300);
+  padding:28px 32px;
+}
+.info-aspek h3{
+  font-size:14px;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.08em;color:var(--navy);margin-bottom:16px;
+}
+.info-aspek-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.info-aspek-item{
+  background:var(--teal-light);border-radius:10px;
+  padding:14px 10px;text-align:center;
+  font-size:15px;color:var(--teal);font-weight:500;
+}
+.aicon{display:block;font-size:22px;margin-bottom:6px}
+.info-scale{
+  display:flex;align-items:center;gap:16px;
+  padding:20px 32px;border-top:1px solid var(--gray-300);
+  flex-wrap:wrap;background:var(--white);
+}
+.info-scale-label{font-size:15px;font-weight:600;color:var(--navy)}
+.info-scale-items{display:flex;gap:12px}
+.info-scale-item{display:flex;align-items:center;gap:8px}
+.info-scale-dot{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--white);font-weight:700;font-size:16px;
+}
+.info-footer{
+  background:var(--navy);color:rgba(255,255,255,0.8);
+  text-align:center;padding:18px;font-size:15px;
+}
+
+/* FOOTER */
+.page-footer{
+  text-align:center;padding:40px 0 20px;
+  border-top:1px solid var(--gray-300);
+  color:var(--gray-500);font-size:15px;
+}
+.page-footer strong{color:var(--navy)}
+
+@media(max-width:720px){
+  .hero{padding:48px 28px}
+  .aspek-grid,.rating-explain{grid-template-columns:1fr}
+  .info-steps{grid-template-columns:1fr}
+  .info-step{border-right:none;border-bottom:1px solid var(--gray-300)}
+  .info-aspek-grid{grid-template-columns:repeat(2,1fr)}
+  .field-item{flex-direction:column;gap:4px}
+  .field-name{min-width:unset}
+}
+@media print{
+  .no-print{display:none!important}
+  body{background:white;font-size:12pt}
+  .infografis{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">MSP FPIK UNSRAT</div>
+    <a href="#tujuan">Tujuan</a>
+    <a href="#langkah">Langkah-Langkah</a>
+    <a href="#infografis">Infografis</a>
+    <a href="#faq">FAQ</a>
+    <a href="form.html" class="nav-cta no-print">📝 Isi Formulir Sekarang</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">Panduan Resmi · LAM PTIP IAPS 1.0</div>
+    <h1>Panduan Pengisian<br>Tracer Study Pengguna Lulusan</h1>
+    <p class="hero-sub">Program Studi Manajemen Sumber Daya Perairan · FPIK · Universitas Sam Ratulangi Manado. Penilaian Anda sangat berarti untuk akreditasi dan pengembangan kurikulum kami.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">3</span><span class="lbl">Langkah Mudah</span></div>
+      <div class="hero-stat"><span class="num">7</span><span class="lbl">Aspek Dinilai</span></div>
+      <div class="hero-stat"><span class="num">±7</span><span class="lbl">Menit Saja</span></div>
+    </div>
+  </div>
+
+  <!-- ALERT BANNER -->
+  <div class="alert-banner no-print">
+    <div class="alert-icon">📋</div>
+    <div>
+      <div class="alert-title">Siap mengisi formulir? Klik tombol di bawah ini.</div>
+      <div class="alert-text">Formulir online tersedia 24 jam. Data tersimpan aman di server FPIK UNSRAT. Baca panduan ini terlebih dahulu agar pengisian lancar.</div>
+      <a href="form.html" class="alert-btn">📝 Buka Formulir Tracer Study</a>
+    </div>
+  </div>
+
+  <!-- TUJUAN -->
+  <section class="section" id="tujuan">
+    <div class="section-tag">Tentang</div>
+    <h2 class="section-title">Mengapa Survei Ini Penting?</h2>
+    <p class="section-sub">Tracer Study Pengguna Lulusan merupakan kewajiban akreditasi LAM PTIP (Tabel 2.7B IAPS 1.0).</p>
+
+    <div class="step-block">
+      <div class="step-body">
+        <p style="font-size:17px;margin-bottom:16px;">Data yang Bapak/Ibu berikan digunakan untuk tiga hal utama:</p>
+        <div class="aspek-grid" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="aspek-item"><div class="aspek-num">1</div>Evaluasi kurikulum dan kompetensi lulusan</div>
+          <div class="aspek-item"><div class="aspek-num">2</div>Pemenuhan standar akreditasi LAM PTIP</div>
+          <div class="aspek-item"><div class="aspek-num">3</div>Peningkatan mutu Program Studi MSP</div>
+        </div>
+        <div class="tip-box" style="margin-top:20px">
+          <strong>🔒 Kerahasiaan Data:</strong> Seluruh informasi yang Bapak/Ibu berikan bersifat rahasia dan hanya digunakan untuk keperluan akademik. Tidak akan disebarluaskan kepada pihak ketiga.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- LANGKAH -->
+  <section class="section" id="langkah">
+    <div class="section-tag">Panduan</div>
+    <h2 class="section-title">Langkah-Langkah Pengisian</h2>
+    <p class="section-sub">Ikuti tiga langkah berikut secara berurutan. Total waktu pengisian hanya ±5–7 menit.</p>
+
+    <!-- Langkah 1 -->
+    <div class="step-block">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-head-info">
+          <h3>Langkah 1 dari 3 — Identitas Instansi &amp; Pengisi</h3>
+          <p>Estimasi waktu: ±2 menit · Progress bar 0% → 33%</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="screenshot-box">
+          <strong>📱 Tampilan layar: Formulir Langkah 1/3</strong>
+          Terdapat judul "Identitas Instansi &amp; Pengisi", progress bar biru 33%, dan beberapa kolom isian. Tombol hijau "Lanjut ke Langkah 2" ada di bagian bawah.
+        </div>
+
+        <h4>Data Instansi (Wajib Diisi)</h4>
+        <ul class="field-list">
+          <li class="field-item">
+            <div class="field-name">Nama Instansi / Perusahaan <span class="badge badge-wajib">Wajib</span></div>
+            <div class="field-desc">Tulis nama lengkap instansi, perusahaan, lembaga, atau organisasi tempat Bapak/Ibu bekerja. Contoh: <em>"Dinas Kelautan dan Perikanan Kota Manado"</em> atau <em>"PT. Minahasa Jaya Seafood"</em>.</div>
+          </li>
+          <li class="field-item">
+            <div class="field-name">Sektor / Bidang Usaha <span class="badge badge-wajib">Wajib</span></div>
+            <div class="field-desc">Pilih dari dropdown sesuai bidang: Pemerintahan, Swasta, BUMN, Akademik/Riset, LSM/NGO, atau lainnya.</div>
+          </li>
+          <li class="field-item">
+            <div class="field-name">Kota / Kabupaten <span class="badge badge-wajib">Wajib</span></div>
+            <div class="field-desc">Lokasi utama instansi Bapak/Ibu. Contoh: <em>"Manado"</em>, <em>"Bitung"</em>, <em>"Minahasa"</em>.</div>
+          </li>
+        </ul>
+
+        <h4>Data Pengisi (Wajib Diisi)</h4>
+        <ul class="field-list">
+          <li class="field-item">
+            <div class="field-name">Nama Pengisi <span class="badge badge-wajib">Wajib</span></div>
+            <div class="field-desc">Nama lengkap Bapak/Ibu sebagai perwakilan instansi yang mengisi formulir ini.</div>
+          </li>
+          <li class="field-item">
+            <div class="field-name">Jabatan / Posisi <span class="badge badge-wajib">Wajib</span></div>
+            <div class="field-desc">Jabatan resmi Bapak/Ibu di instansi. Contoh: <em>"Kepala Bagian SDM"</em>, <em>"Direktur Operasional"</em>.</div>
+          </li>
+          <li class="field-item">
+            <div class="field-name">Alamat Email <span class="badge badge-wajib">Wajib</span></div>
+            <div class="field-desc">Email aktif untuk konfirmasi. Gunakan email instansi bila memungkinkan.</div>
+          </li>
+        </ul>
+
+        <h4>Data Alumni (Opsional)</h4>
+        <ul class="field-list">
+          <li class="field-item">
+            <div class="field-name">Nama Alumni MSP <span class="badge badge-opsional">Opsional</span></div>
+            <div class="field-desc">Nama lulusan MSP yang bekerja di instansi Bapak/Ibu. Kosongkan jika tidak mengetahui nama spesifiknya.</div>
+          </li>
+          <li class="field-item">
+            <div class="field-name">Jabatan Alumni <span class="badge badge-opsional">Opsional</span></div>
+            <div class="field-desc">Posisi alumni tersebut di instansi Bapak/Ibu saat ini.</div>
+          </li>
+          <li class="field-item">
+            <div class="field-name">Tahun Lulus <span class="badge badge-opsional">Opsional</span></div>
+            <div class="field-desc">Tahun kelulusan alumni dari Program Studi MSP FPIK UNSRAT.</div>
+          </li>
+        </ul>
+
+        <div class="tip-box">
+          <strong>💡 Tips:</strong> Jika Bapak/Ibu tidak mengetahui nama alumni secara spesifik, kolom Data Alumni boleh dikosongkan. Penilaian dapat diberikan secara umum berdasarkan pengalaman bekerja dengan lulusan MSP.
+        </div>
+        <p style="font-size:17px;margin-top:8px;">Setelah semua kolom wajib terisi, klik tombol <strong>"Lanjut ke Langkah 2"</strong>.</p>
+      </div>
+    </div>
+
+    <!-- Langkah 2 -->
+    <div class="step-block">
+      <div class="step-head">
+        <div class="step-num">2</div>
+        <div class="step-head-info">
+          <h3>Langkah 2 dari 3 — Penilaian 7 Aspek Kompetensi</h3>
+          <p>Estimasi waktu: ±3 menit · Progress bar 33% → 67%</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="screenshot-box">
+          <strong>📱 Tampilan layar: Formulir Langkah 2/3</strong>
+          Terdapat 7 aspek kompetensi, masing-masing dengan 4 tombol pilihan nilai (1, 2, 3, 4). Tombol yang dipilih akan berubah warna menjadi aktif.
+        </div>
+
+        <h4>Skala Penilaian (1–4)</h4>
+        <div class="rating-explain">
+          <div class="rating-box r-kurang">
+            <span class="num">1</span>
+            <div class="lbl">Kurang</div>
+            <div class="desc">Di bawah ekspektasi</div>
+          </div>
+          <div class="rating-box r-cukup">
+            <span class="num">2</span>
+            <div class="lbl">Cukup</div>
+            <div class="desc">Memenuhi standar minimal</div>
+          </div>
+          <div class="rating-box r-baik">
+            <span class="num">3</span>
+            <div class="lbl">Baik</div>
+            <div class="desc">Memenuhi ekspektasi</div>
+          </div>
+          <div class="rating-box r-sangat">
+            <span class="num">4</span>
+            <div class="lbl">Sangat Baik</div>
+            <div class="desc">Melampaui ekspektasi</div>
+          </div>
+        </div>
+
+        <h4>7 Aspek Kompetensi yang Dinilai</h4>
+        <div class="aspek-grid">
+          <div class="aspek-item"><div class="aspek-num">1</div>Integritas &amp; Etika Moral</div>
+          <div class="aspek-item"><div class="aspek-num">2</div>Profesionalisme Bidang Ilmu</div>
+          <div class="aspek-item"><div class="aspek-num">3</div>Kemampuan Bahasa Asing</div>
+          <div class="aspek-item"><div class="aspek-num">4</div>Penguasaan Teknologi Informasi</div>
+          <div class="aspek-item"><div class="aspek-num">5</div>Kemampuan Komunikasi</div>
+          <div class="aspek-item"><div class="aspek-num">6</div>Kemampuan Kerja Tim</div>
+          <div class="aspek-item"><div class="aspek-num">7</div>Kemampuan Pengembangan Diri</div>
+        </div>
+
+        <div class="tip-box" style="margin-top:20px">
+          <strong>💡 Cara mengisi:</strong> Klik salah satu angka (1, 2, 3, atau 4) untuk setiap aspek. Semua 7 aspek wajib dinilai sebelum bisa lanjut ke langkah berikutnya.
+        </div>
+        <p style="font-size:17px;">Setelah semua 7 aspek dinilai, klik <strong>"Lanjut ke Langkah 3"</strong>.</p>
+      </div>
+    </div>
+
+    <!-- Langkah 3 -->
+    <div class="step-block">
+      <div class="step-head">
+        <div class="step-num">3</div>
+        <div class="step-head-info">
+          <h3>Langkah 3 dari 3 — Kepuasan Keseluruhan &amp; Saran</h3>
+          <p>Estimasi waktu: ±1 menit · Langkah terakhir</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="screenshot-box">
+          <strong>📱 Tampilan layar: Formulir Langkah 3/3 — Progress bar 100%</strong>
+          Terdapat pilihan kepuasan keseluruhan (1–4), pilihan kesediaan merekrut, kolom teks saran, dan tombol hijau "Kirim Formulir".
+        </div>
+
+        <h4>Kolom di Langkah 3</h4>
+        <ul class="field-list">
+          <li class="field-item">
+            <div class="field-name">Tingkat Kepuasan Keseluruhan <span class="badge badge-wajib">Wajib</span></div>
+            <div class="field-desc">Pilih angka 1–4 yang mewakili penilaian keseluruhan terhadap kualitas alumni MSP (skala sama seperti Langkah 2).</div>
+          </li>
+          <li class="field-item">
+            <div class="field-name">Kesediaan Merekrut Ulang <span class="badge badge-opsional">Opsional</span></div>
+            <div class="field-desc">Pilih "Ya" atau "Tidak". Jawaban ini tidak mengikat secara hukum dan bersifat informatif saja.</div>
+          </li>
+          <li class="field-item">
+            <div class="field-name">Saran untuk Program Studi <span class="badge badge-opsional">Opsional</span></div>
+            <div class="field-desc">Masukan untuk pengembangan kurikulum, kompetensi, atau hal lain. Sangat dihargai jika diisi.</div>
+          </li>
+          <li class="field-item">
+            <div class="field-name">Pesan Khusus <span class="badge badge-opsional">Opsional</span></div>
+            <div class="field-desc">Pesan, harapan, atau apresiasi yang ingin disampaikan kepada Prodi MSP.</div>
+          </li>
+        </ul>
+
+        <p style="font-size:17px;margin-top:16px;">Klik tombol <strong style="color:var(--green)">"Kirim Formulir"</strong>. Sistem akan memproses pengiriman selama beberapa detik.</p>
+        <div class="success-box"><strong>✅ Pengisian berhasil!</strong> Jika muncul halaman dengan tulisan "Data Berhasil Dikirim" atau "Terima kasih atas partisipasi Anda", berarti data sudah tersimpan dengan aman. Tidak perlu mengirim ulang.</div>
+        <div class="error-box"><strong>⚠️ Jika muncul "Gagal mengirim data":</strong> Periksa koneksi internet, lalu klik "Kirim Formulir" sekali lagi. Jika masalah berlanjut, hubungi admin Prodi MSP.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- INFOGRAFIS -->
+  <section class="section" id="infografis">
+    <div class="section-tag">Ringkasan</div>
+    <h2 class="section-title">Infografis — 3 Langkah Mudah</h2>
+    <p class="section-sub">Gambaran singkat seluruh proses. Bisa dicetak atau disimpan sebagai referensi.</p>
+
+    <div class="infografis">
+      <div class="info-header">
+        <div class="sup">Program Studi Manajemen Sumber Daya Perairan · FPIK UNSRAT</div>
+        <h2>3 Langkah Mudah Mengisi<br>Tracer Study Pengguna Lulusan</h2>
+        <div style="font-size:15px;opacity:0.8;margin-top:6px;">Standar LAM PTIP IAPS 1.0 — Tabel 2.7B Kepuasan Pengguna Lulusan</div>
+        <div class="time-badge">⏱ Hanya ±5–7 Menit</div>
+      </div>
+
+      <div class="info-steps">
+        <div class="info-step" style="background:var(--teal-light)">
+          <div class="info-step-num" style="color:rgba(0,109,119,0.18)">01</div>
+          <h3 style="color:var(--teal)">Identitas Instansi &amp; Pengisi</h3>
+          <ul class="info-step-items">
+            <li>Nama instansi / perusahaan</li>
+            <li>Sektor / bidang usaha</li>
+            <li>Kota / kabupaten</li>
+            <li>Nama &amp; jabatan pengisi</li>
+            <li>Email (wajib)</li>
+            <li>Data alumni (opsional)</li>
+          </ul>
+          <div class="info-arrow">→</div>
+        </div>
+        <div class="info-step" style="background:var(--gold-light)">
+          <div class="info-step-num" style="color:rgba(197,151,58,0.18)">02</div>
+          <h3 style="color:#A0700A">Penilaian 7 Aspek</h3>
+          <ul class="info-step-items" style="color:var(--gray-700)">
+            <li>Skala: 1 (Kurang) – 4 (Sangat Baik)</li>
+            <li>Semua 7 aspek wajib dinilai</li>
+            <li>Klik tombol pilihan Anda</li>
+            <li>Standar LAM PTIP IAPS 1.0</li>
+          </ul>
+          <div class="info-arrow" style="background:var(--gold)">→</div>
+        </div>
+        <div class="info-step" style="background:var(--green-light)">
+          <div class="info-step-num" style="color:rgba(27,122,74,0.18)">03</div>
+          <h3 style="color:var(--green)">Kepuasan &amp; Kirim</h3>
+          <ul class="info-step-items">
+            <li>Kepuasan keseluruhan (wajib)</li>
+            <li>Kesediaan merekrut ulang</li>
+            <li>Saran untuk prodi (opsional)</li>
+            <li>Klik "Kirim Formulir"</li>
+            <li>Tunggu halaman sukses ✅</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="info-aspek">
+        <h3>7 Aspek Kompetensi LAM PTIP yang Dinilai (Tabel 2.7B)</h3>
+        <div class="info-aspek-grid">
+          <div class="info-aspek-item"><span class="aicon">⚖️</span>Integritas &amp; Etika Moral</div>
+          <div class="info-aspek-item"><span class="aicon">🎓</span>Profesionalisme Bidang Ilmu</div>
+          <div class="info-aspek-item"><span class="aicon">🌐</span>Kemampuan Bahasa Asing</div>
+          <div class="info-aspek-item"><span class="aicon">💻</span>Teknologi Informasi</div>
+          <div class="info-aspek-item"><span class="aicon">🗣️</span>Kemampuan Komunikasi</div>
+          <div class="info-aspek-item"><span class="aicon">🤝</span>Kerja Tim</div>
+          <div class="info-aspek-item"><span class="aicon">📈</span>Pengembangan Diri</div>
+        </div>
+      </div>
+
+      <div class="info-scale">
+        <span class="info-scale-label">Skala Nilai:</span>
+        <div class="info-scale-items">
+          <div class="info-scale-item">
+            <div class="info-scale-dot" style="background:var(--red)">1</div>
+            <span style="font-size:15px">Kurang</span>
+          </div>
+          <div class="info-scale-item">
+            <div class="info-scale-dot" style="background:var(--gold)">2</div>
+            <span style="font-size:15px">Cukup</span>
+          </div>
+          <div class="info-scale-item">
+            <div class="info-scale-dot" style="background:var(--teal)">3</div>
+            <span style="font-size:15px">Baik</span>
+          </div>
+          <div class="info-scale-item">
+            <div class="info-scale-dot" style="background:var(--green)">4</div>
+            <span style="font-size:15px">Sangat Baik</span>
+          </div>
+        </div>
+        <span style="margin-left:auto;font-size:15px;color:var(--gray-500)">Hubungi Prodi MSP FPIK UNSRAT untuk bantuan</span>
+      </div>
+
+      <div class="info-footer">
+        <strong>Prodi Manajemen Sumber Daya Perairan · FPIK · Universitas Sam Ratulangi Manado</strong>
+        &nbsp;|&nbsp; Tracer Study LAM PTIP IAPS 1.0 &nbsp;|&nbsp; Data dijaga kerahasiaannya
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title">Pertanyaan yang Sering Ditanyakan</h2>
+    <p class="section-sub">Klik pertanyaan untuk melihat jawaban lengkapnya.</p>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <div class="faq-q-icon">?</div>
+        Apakah data saya aman dan tidak disebarluaskan?
+        <span class="faq-chevron">▾</span>
+      </div>
+      <div class="faq-a">Ya, sepenuhnya aman. Data yang Bapak/Ibu isi akan tersimpan di server yang dikelola Prodi MSP FPIK UNSRAT dan hanya digunakan untuk keperluan akreditasi LAM PTIP serta pengembangan program studi. Tidak ada data yang akan disebarluaskan kepada pihak ketiga.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <div class="faq-q-icon">?</div>
+        Apakah saya perlu mengisi ulang jika tidak sengaja menutup browser?
+        <span class="faq-chevron">▾</span>
+      </div>
+      <div class="faq-a">Ya, disarankan menyelesaikan pengisian dalam satu sesi tanpa menutup browser, karena formulir tidak menyimpan draft otomatis. Waktu pengisian hanya ±5–7 menit, jadi cukup luangkan waktu sebentar untuk menyelesaikannya sekaligus.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <div class="faq-q-icon">?</div>
+        Saya tidak tahu alumni MSP mana yang bekerja di instansi saya. Apakah tetap bisa mengisi?
+        <span class="faq-chevron">▾</span>
+      </div>
+      <div class="faq-a">Tentu saja bisa. Kolom nama dan jabatan alumni bersifat opsional (tidak wajib). Bapak/Ibu dapat memberikan penilaian secara umum berdasarkan pengetahuan tentang lulusan MSP FPIK UNSRAT, tanpa perlu menyebut nama spesifik.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <div class="faq-q-icon">?</div>
+        Apakah bisa mengisi dari HP, bukan komputer?
+        <span class="faq-chevron">▾</span>
+      </div>
+      <div class="faq-a">Bisa. Formulir ini dirancang responsif dan dapat diakses dengan nyaman melalui ponsel (HP) maupun tablet, tidak hanya dari komputer atau laptop. Cukup ketuk tautan yang dikirimkan, dan formulir akan terbuka di browser HP Bapak/Ibu.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <div class="faq-q-icon">?</div>
+        Saya sudah mengirim formulir, tapi tidak muncul halaman sukses. Apakah data sudah terkirim?
+        <span class="faq-chevron">▾</span>
+      </div>
+      <div class="faq-a">Jika tidak ada pesan error merah yang muncul dan Bapak/Ibu melihat animasi "⏳ Mengirim...", kemungkinan besar data sudah berhasil terkirim namun halaman sukses terlambat tampil karena koneksi lambat. Untuk memastikan, hubungi admin prodi MSP melalui kontak yang tercantum di pesan undangan. Jangan mengisi ulang agar tidak terjadi duplikasi data.</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="page-footer">
+    <strong>Panduan Pengisian Tracer Study Pengguna Lulusan</strong><br>
+    Program Studi Manajemen Sumber Daya Perairan · FPIK · Universitas Sam Ratulangi Manado<br>
+    Standar LAM PTIP IAPS 1.0 — Tabel 2.7B · Data dijaga kerahasiaannya
+  </div>
+
+</div>
+
+<script>
+// Smooth scroll
+document.querySelectorAll('.nav a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.closest('.faq-item');
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
